@@ -1,8 +1,6 @@
 # Include your custom HAL commands here
 # This file will not be overwritten when you run PNCconf again
 
-source probe-guard.hal
-
 # --- GUARD-IN ---
 net guard-in     <=  [HMOT](CARD0).inm.00.input-05
 
