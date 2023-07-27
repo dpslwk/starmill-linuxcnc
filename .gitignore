@@ -1,0 +1,6 @@
+autosave.halscope
+halshow.preferences
+*.bak
+position.txt
+*.var
+*.tbl
