@@ -1,0 +1,42 @@
+# Hal to work with topcom SMART.MER/2
+
+# --- Block Probe ---
+net block-probe  =>     [HMOT](CARD0).ssr.00.out-00
+# --- Block Tool Setter ---
+net block-setter  =>     [HMOT](CARD0).ssr.00.out-01
+
+loadrt demux personality=7
+loadrt conv_s32_u32
+loadrt conv_s32_float
+loadrt comp
+loadrt and2 count=2
+loadrt not count=1
+
+addf demux.0 servo-thread
+addf conv-s32-u32.0  servo-thread
+addf conv-s32-float.0  servo-thread
+addf comp.0 servo-thread
+addf and2.0 servo-thread
+addf and2.1 servo-thread
+addf not.0 servo-thread
+
+net motion-type <= motion.motion-type => conv-s32-u32.0.in
+net motion-type-u <= conv-s32-u32.0.out => demux.0.sel-u32
+net motion-probing <= demux.0.out-05
+
+net current-tool-number <= iocontrol.0.tool-number => conv-s32-float.0.in
+net current-tool-number-float <= conv-s32-float.0.out => comp.0.in0
+net probe-tool-number => comp.0.in1
+sets probe-tool-number 99
+net probe-tool-in-spindle <= comp.0.equal
+net probe-tool-in-spindle => not.0.in
+net probe-tool-in-spindle-not <= not.0.out
+
+net motion-probing => and2.0.in0
+net probe-tool-in-spindle => and2.0.in1
+net block-probe <= and2.0.out
+
+net motion-probing => and2.1.in0
+net probe-tool-in-spindle-not  => and2.1.in1
+net block-setter <= and2.1.out
+
