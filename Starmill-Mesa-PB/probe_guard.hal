@@ -10,7 +10,7 @@ loadrt conv_s32_u32
 loadrt conv_s32_float
 loadrt comp
 loadrt and2 count=2
-loadrt not names=not-probe-tool-in-spindle
+loadrt not names=not-probe-tool-in-spindle,not-prog-running
 
 addf demux.0 servo-thread
 addf conv-s32-u32.0  servo-thread
