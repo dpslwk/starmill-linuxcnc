@@ -36,3 +36,18 @@ net spindle-vel-cmd-rpm-abs => spindle-ramp.in
 net spindle-vel-cmd-rpm-abs-ramped <= spindle-ramp.out
 unlinkp pid.s.command
 net spindle-vel-cmd-rpm-abs-ramped => pid.s.command
+
+##
+# https://forum.linuxcnc.org/qtpyvcp/42739-manual-tool-chang-in-probe-basic
+#  ---manual tool change signals---
+
+loadusr -W hal_manualtoolchange
+net tool-change-request     =>  hal_manualtoolchange.change
+net tool-change-confirmed   <=  hal_manualtoolchange.changed
+net tool-number             =>  hal_manualtoolchange.number
+
+# https://github.com/kcjengr/qtpyvcp/pull/123
+#loadusr -W qtpyvcp_manualtoolchange
+#net tool-change-request     =>  qtpyvcp_manualtoolchange.change
+#net tool-change-confirmed   <=  qtpyvcp_manualtoolchange.changed
+#net tool-number             =>  qtpyvcp_manualtoolchange.number
