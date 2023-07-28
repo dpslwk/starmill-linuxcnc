@@ -444,13 +444,13 @@
   <property type="bool" name="mesa0c2pin5inv" value="True"/>
   <property type="string" name="mesa0c2pin5type" value="Dir Gen-B"/>
   <property type="string" name="mesa0c2pin6" value="x-enable"/>
-  <property type="bool" name="mesa0c2pin6inv" value="False"/>
+  <property type="bool" name="mesa0c2pin6inv" value="True"/>
   <property type="string" name="mesa0c2pin6type" value="GPIO Output"/>
   <property type="string" name="mesa0c2pin7" value="y-enable"/>
-  <property type="bool" name="mesa0c2pin7inv" value="False"/>
+  <property type="bool" name="mesa0c2pin7inv" value="True"/>
   <property type="string" name="mesa0c2pin7type" value="GPIO Output"/>
   <property type="string" name="mesa0c2pin8" value="z-enable"/>
-  <property type="bool" name="mesa0c2pin8inv" value="False"/>
+  <property type="bool" name="mesa0c2pin8inv" value="True"/>
   <property type="string" name="mesa0c2pin8type" value="GPIO Output"/>
   <property type="string" name="mesa0c2pin9" value="unused-input"/>
   <property type="bool" name="mesa0c2pin9inv" value="False"/>
