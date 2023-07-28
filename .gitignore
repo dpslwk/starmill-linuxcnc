@@ -4,3 +4,4 @@ halshow.preferences
 position.txt
 *.var
 *.tbl
+*.pickle
