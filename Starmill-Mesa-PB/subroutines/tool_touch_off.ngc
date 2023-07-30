@@ -12,7 +12,7 @@ o<tool_touch_off> sub
 
 G92.1    (Cancel G92 offset)
 
-#<workspace_z> = #5220#52
+#<workspace_z> = #5220
 
 #<tool_touch_x_coords> = #5181
 #<tool_touch_y_coords> = #5182
