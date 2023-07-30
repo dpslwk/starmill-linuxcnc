@@ -20,6 +20,13 @@ net probe-in  <=  qtpyvcp.probe-led.on
 # net spindle-rpm-filtered scale_to_rpm.out  =>  qtpyvcp.spindle-encoder-rpm.in
 net spindle-vel-fb-rpm => qtpyvcp.spindle-encoder-rpm.in
 
+##
+#  ---manual tool change signals---
+# https://github.com/kcjengr/qtpyvcp/pull/123
+net tool-change-request     =>  qtpyvcp_manualtoolchange.change
+net tool-change-confirmed   <=  qtpyvcp_manualtoolchange.changed
+net tool-number             =>  qtpyvcp_manualtoolchange.number
+
 # *** set below for the status leds ***
 #net enter-hal-input-name-here  <=  qtpyvcp.1in1.on
 

@@ -45,3 +45,6 @@ settings:
   backplot.multitool-colors:
     default_value: True
 
+dialogs:
+  toolchange:
+    provider: qtpyvcp.widgets.dialogs.toolchange_dialog:ToolChangeDialog
