@@ -77,7 +77,6 @@ o<probe_x_plus_wco> sub
       F[#<probe_slow_fr>]
       G38.2 X[#<xy_clearance> * 2]
       #<x_plus_probed> = #5061
-      (debug, Probed Pos: #5061 X Pos: #<_x>)
       G90
       G0 X[#<x_plus_probed> - #<xy_clearance>]
   o120 endif
