@@ -4,7 +4,7 @@ import linuxcnc
 from qtpy.QtWidgets import QWidget, QVBoxLayout
 
 from qtpyvcp.utilities import logger
-from qtpyvcp.widgets.button_widgets.subcall_button import SubCallButton
+from qtpyvcp.widgets.button_widgets.mdi_button import MDIButton
 
 LOG = logger.getLogger(__name__)
 
@@ -12,20 +12,21 @@ INI_FILE = linuxcnc.ini(os.getenv('INI_FILE_NAME'))
 
 
 class UserTab(QWidget):
-    """Macro SubCall sidebar user tab.
+    """MDI SubCall sidebar user tab.
 
     The label is set after the comma. The symbols \n adds a line break.
-    If no label is given then
 
-    [MACROS]
-    MACRO = go_to_zero
-    MACRO = unclamptool,Unclamp the\nTool
+    [MDI_COMMAND_LIST]
+    # for macro buttons
+    MDI_COMMAND = G0 Z25;X0 Y0;Z0, Goto\nUser\nZero
+    MDI_COMMAND = G53 G0 Z0;G53 G0 X0 Y0,Goto\nMachn\nZero
+    MDI_COMMAND = o<unclamptool> call,Uncalmp Tool
 
     Args:
         parent (QWidget, optional) : The parent widget of the button, or None.
     """
 
-    sub_call_buttons = []
+    mdi_call_buttons = []
     style_sheet = """
     QPushButton {
             color: white;
@@ -67,7 +68,7 @@ class UserTab(QWidget):
         super(UserTab, self).__init__(parent)
 
         self.setObjectName("macros")
-        self.setWindowTitle("Macro User Tab")
+        self.setWindowTitle("MDI Macro User Tab")
         self.setGeometry(0, 0, 179, 511)
         self.setMaximumWidth(179)
         self.setMaximumHeight(511)
@@ -75,22 +76,22 @@ class UserTab(QWidget):
 
         self.macro_button_layout = QVBoxLayout(self)
 
-        macros = INI_FILE.findall("MACROS", "MACRO")
+        macros = INI_FILE.findall("MDI_COMMAND_LIST", "MDI_COMMAND")
 
         for m in macros:
             for num,k in enumerate(m.split(',')):
                 if num == 0:
                     macro = k
                     if len(m.split(',')) <2:
-                        label = k.replace("_", " ").title()
+                        label = "MDI Macro {}".format(len(self.mdi_call_buttons) + 1)
                 else:
                     label = k.replace(r'\n', '\n')
 
-            button = SubCallButton(None, filename=macro)
+            button = MDIButton(None, command=macro)
             button.setText(label)
             button.setStyleSheet(self.style_sheet)
-            button.setToolTip("o<{}> call".format(macro))
-            self.sub_call_buttons.append(button)
-            self.macro_button_layout.addWidget(self.sub_call_buttons[-1])
+            button.setToolTip(macro.replace(';', '\n'))
+            self.mdi_call_buttons.append(button)
+            self.macro_button_layout.addWidget(self.mdi_call_buttons[-1])
 
         self.macro_button_layout.addStretch()
