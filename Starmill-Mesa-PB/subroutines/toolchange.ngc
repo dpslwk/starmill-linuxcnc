@@ -38,17 +38,17 @@ o110 endif
 
 #<next_pocket> = 0 ; assigns 0 to the next pocket for a later check if the tool is found in the carousel
 #<open_pocket> = 0
-#15 = 12 ; assign test parameter the number of pockets in the carousel
+#17 = 12 ; assign test parameter the number of pockets in the carousel
 
 o120 do
-    o121 if [#[5190 + #15] EQ #100] ; checks all pockets to see if it contains tool number requested as the new tool
-        #<next_pocket> = #15 ; if tool is found in pocket, assigns the next pocket
+    o121 if [#[5190 + #17] EQ #100] ; checks all pockets to see if it contains tool number requested as the new tool
+        #<next_pocket> = #17 ; if tool is found in pocket, assigns the next pocket
     o121 endif
-    o122 if [#[5190 + #15] EQ 0] ; checks if the pocket is empty, last pocket checked will be the lowest empty pocket number, for putting tool in spindle away.
-        #<open_pocket> = #15
+    o122 if [#[5190 + #17] EQ 0] ; checks if the pocket is empty, last pocket checked will be the lowest empty pocket number, for putting tool in spindle away.
+        #<open_pocket> = #17
     o122 endif
-    #15= [#15 - 1]
-o120 while [#15 GT 0]
+    #17= [#17 - 1]
+o120 while [#17 GT 0]
 o130 if [#<next_pocket> EQ 0] ; if tool is not found, aborts and sends a message
     (abort, tool not in carousel)
 o130 endif
@@ -79,7 +79,7 @@ o150 IF [#100 GT 0] ; selected tool is not tool0
     M66 P1 L3 Q5 ; check carousel out position sensor
     o151 if [#5399 LT 0]
         M65 P0 ; turn off the solenoid to send atc to tool change
-        (abort, failed to send carousel home) ; abort if the 	sensor does not activate in 5 seconds
+        (abort, failed to send carousel home) ; abort if the    sensor does not activate in 5 seconds
     o151 endif
     M65 P0
 
@@ -95,24 +95,24 @@ o150 Else
     M66 P0 L3 Q4 ; check carousel in position sensor
     o152 if [#5399 LT 0]
         M65 P1 ; turn off the solenoid to send atc home
-        (abort, failed to send carousel home) ; abort if the 	sensor does not activate in 5 seconds
+        (abort, failed to send carousel home) ; abort if the    sensor does not activate in 5 seconds
     o152 endif
     M65 P1
 o150 endif
 
 ; assign the tool numbers in the pockets to the parameters
-#5190= #1
-#5191= #2
-#5192= #3
-#5193= #4
-#5194= #5
-#5195= #6
-#5196= #7
-#5197= #8
-#5198= #9
-#5199= #10
-#5200= #11
-#5201= #12
+#5191= #1
+#5192= #2
+#5193= #3
+#5194= #4
+#5195= #5
+#5196= #6
+#5197= #7
+#5198= #8
+#5199= #9
+#5100= #10
+#5201= #11
+#5202= #12
 
 M61 Q#100
 
