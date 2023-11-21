@@ -282,6 +282,7 @@ net spindle-revs               =>  spindle.0.revs
 net spindle-at-speed           =>  spindle.0.at-speed
 net spindle-vel-fb-rps         =>  spindle.0.speed-in
 net spindle-index-enable      <=>  spindle.0.index-enable
+net spindle-inhibit            =>  spindle.0.inhibit
 
 # ---Setup spindle at speed signals---
 
