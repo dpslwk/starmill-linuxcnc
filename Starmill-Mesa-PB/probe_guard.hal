@@ -27,7 +27,7 @@ net motion-probing <= demux.0.out-05
 net current-tool-number <= iocontrol.0.tool-number => conv-s32-float.0.in
 net current-tool-number-float <= conv-s32-float.0.out => comp.0.in0
 net probe-tool-number => comp.0.in1
-sets probe-tool-number 99
+sets probe-tool-number [PROBE]PROBE_TOOL_NUMBER
 net probe-tool-in-spindle <= comp.0.equal
 net probe-tool-in-spindle => not-probe-tool-in-spindle.in
 net probe-tool-in-spindle-not <= not-probe-tool-in-spindle.out
