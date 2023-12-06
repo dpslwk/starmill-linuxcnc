@@ -1,0 +1,72 @@
+# Hal for my custom 7i73 based pendant
+
+
+## Pendant connections
+# Encoder
+# ENCODER A   B
+# ENC 0   IN8 IN9
+net pendant-encoder-counts <= [HMOT](CARD0).[HMOT](SSERIAL0).enc0.count
+
+# Display
+net display-output => [HMOT](CARD0).[HMOT](SSERIAL0).display
+
+# Axis LEDs (Key0, KEY2, KEY4)
+net pendant-x-led => [HMOT](CARD0).[HMOT](SSERIAL0).output-06
+net pendant-y-led => [HMOT](CARD0).[HMOT](SSERIAL0).output-08
+net pendant-z-led => [HMOT](CARD0).[HMOT](SSERIAL0).output-10
+
+# Axis Buttons
+net pendant-x-button <= [HMOT](CARD0).[HMOT](SSERIAL0).input-11
+net pendant-y-button <= [HMOT](CARD0).[HMOT](SSERIAL0).input-13
+net pendant-z-button <= [HMOT](CARD0).[HMOT](SSERIAL0).input-15
+
+# Off/Jog/Step Selector
+net pendant-mode-selector-off  <= [HMOT](CARD0).[HMOT](SSERIAL0).input-10
+net pendant-mode-selector-jog  <= [HMOT](CARD0).[HMOT](SSERIAL0).input-12
+net pendant-mode-selector-step <= [HMOT](CARD0).[HMOT](SSERIAL0).input-14
+
+# Step Scale Selector
+net pendant-scale-selector-pos1 <= [HMOT](CARD0).[HMOT](SSERIAL0).input-01
+net pendant-scale-selector-pos2 <= [HMOT](CARD0).[HMOT](SSERIAL0).input-02
+net pendant-scale-selector-pos3 <= [HMOT](CARD0).[HMOT](SSERIAL0).input-03
+net pendant-scale-selector-pos4 <= [HMOT](CARD0).[HMOT](SSERIAL0).input-04
+net pendant-scale-selector-pos5 <= [HMOT](CARD0).[HMOT](SSERIAL0).input-05
+net pendant-scale-selector-pos6 <= [HMOT](CARD0).[HMOT](SSERIAL0).input-06
+
+## Motion Connections
+net jog-x-counts => axis.x.jog-counts
+net jog-x-enable => axis.x.jog-enable
+net jog-x-scale => axis.x.jog-scale
+net jog-x-vel-mode => axis.x.jog-vel-mode
+
+net jog-y-counts => axis.y.jog-counts
+net jog-y-enable => axis.y.jog-enable
+net jog-y-scale => axis.y.jog-scale
+net jog-y-vel-mode => axis.y.jog-vel-mode
+
+net jog-z-counts => axis.z.jog-counts
+net jog-z-enable => axis.z.jog-enable
+net jog-z-scale => axis.z.jog-scale
+net jog-z-vel-mode => axis.z.jog-vel-mode
+
+loadrt toggle names=x-select-tog,y-select-tog,z-select-tog
+addf toggle.
+
+## Jog/Step logic
+
+
+
+
+
+## LCD
+loadrt lcd fmt_strings="LinuxCNC - Tool %2i\n%b* X Pos = %11.4f%b* Y Pos = %11.4f%b* Z Pos = %10.3f|Long Number\n%015.2f\n"
+addf lcd servo-thread -2
+
+net display-output <= lcd.00.out
+
+setp lcd.00.contrast 0.7
+#net dspx halui.axis.0.pos-commanded => lcd.00.page.01.arg.00
+#net dspy halui.axis.1.pos-commanded => lcd.00.page.01.arg.01
+#net dspz halui.axis.2.pos-commanded => lcd.00.page.01.arg.02
+
+
