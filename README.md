@@ -27,4 +27,5 @@ Control Cabinet
 ```
 ln -s ~/github/starmill-linuxcnc/Starmill-Mesa-PB ~/linuxcnc/configs/Starmill-Mesa-PB
 ln -s ~/github/starmill-linuxcnc/nc_files/probe_basic ~/linuxcnc/nc_files/probe_basic
+ln -s ~/github/starmill-linuxcnc/nc_files/lwk ~/linuxcnc/nc_files/lwk
 ```

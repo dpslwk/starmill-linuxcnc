@@ -7,6 +7,8 @@ o<m13> sub
 (PRINT, o<m13>)
 
 (DEBUG, EVAL[vcp.getWidget{"dynatc"}.atc_message{"REFERENCING"}])
+o<move_head_above_carousel> call
+o<retractatc> call
 
 M64 P3 ; Move Motor FWD
 M66 P3 L1 Q20 ; wait for rising edge on home index
