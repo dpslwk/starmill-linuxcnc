@@ -1,5 +1,6 @@
 # Hal for my custom 7i73 based pendant
 
+setp [HMOT](CARD0).[HMOT](SSERIAL0).output-05 1
 
 ## Pendant connections
 # Encoder
@@ -11,27 +12,29 @@ net pendant-encoder-counts <= [HMOT](CARD0).[HMOT](SSERIAL0).enc0.count
 net display-output => [HMOT](CARD0).[HMOT](SSERIAL0).display
 
 # Axis LEDs (Key0, KEY2, KEY4)
-net pendant-x-led => [HMOT](CARD0).[HMOT](SSERIAL0).output-06
-net pendant-y-led => [HMOT](CARD0).[HMOT](SSERIAL0).output-08
-net pendant-z-led => [HMOT](CARD0).[HMOT](SSERIAL0).output-10
+net pendant-x-led => [HMOT](CARD0).[HMOT](SSERIAL0).output-07
+net pendant-y-led => [HMOT](CARD0).[HMOT](SSERIAL0).output-09
+net pendant-z-led => [HMOT](CARD0).[HMOT](SSERIAL0).output-11
 
 # Axis Buttons
-net pendant-x-button <= [HMOT](CARD0).[HMOT](SSERIAL0).input-11
-net pendant-y-button <= [HMOT](CARD0).[HMOT](SSERIAL0).input-13
-net pendant-z-button <= [HMOT](CARD0).[HMOT](SSERIAL0).input-15
+net pendant-x-button <= [HMOT](CARD0).[HMOT](SSERIAL0).input-17-not
+net pendant-y-button <= [HMOT](CARD0).[HMOT](SSERIAL0).input-19-not
+net pendant-z-button <= [HMOT](CARD0).[HMOT](SSERIAL0).input-21-not
 
 # Off/Jog/Step Selector
-net pendant-mode-selector-off  <= [HMOT](CARD0).[HMOT](SSERIAL0).input-10
-net pendant-mode-selector-jog  <= [HMOT](CARD0).[HMOT](SSERIAL0).input-12
-net pendant-mode-selector-step <= [HMOT](CARD0).[HMOT](SSERIAL0).input-14
+net pendant-mode-selector-off  <= [HMOT](CARD0).[HMOT](SSERIAL0).input-10-not
+net pendant-mode-selector-jog  <= [HMOT](CARD0).[HMOT](SSERIAL0).input-12-not
+net pendant-mode-selector-step <= [HMOT](CARD0).[HMOT](SSERIAL0).input-14-not
+#net pendant-mode-selector-feed <= [HMOT](CARD0).[HMOT](SSERIAL0).input-14-not
+#net pendant-mode-selector-spindle <= [HMOT](CARD0).[HMOT](SSERIAL0).input-14-not
 
 # Step Scale Selector
-net pendant-scale-selector-pos1 <= [HMOT](CARD0).[HMOT](SSERIAL0).input-01
-net pendant-scale-selector-pos2 <= [HMOT](CARD0).[HMOT](SSERIAL0).input-02
-net pendant-scale-selector-pos3 <= [HMOT](CARD0).[HMOT](SSERIAL0).input-03
-net pendant-scale-selector-pos4 <= [HMOT](CARD0).[HMOT](SSERIAL0).input-04
-net pendant-scale-selector-pos5 <= [HMOT](CARD0).[HMOT](SSERIAL0).input-05
-net pendant-scale-selector-pos6 <= [HMOT](CARD0).[HMOT](SSERIAL0).input-06
+net pendant-scale-selector-pos1 <= [HMOT](CARD0).[HMOT](SSERIAL0).input-01-not
+net pendant-scale-selector-pos2 <= [HMOT](CARD0).[HMOT](SSERIAL0).input-02-not
+net pendant-scale-selector-pos3 <= [HMOT](CARD0).[HMOT](SSERIAL0).input-03-not
+net pendant-scale-selector-pos4 <= [HMOT](CARD0).[HMOT](SSERIAL0).input-04-not
+net pendant-scale-selector-pos5 <= [HMOT](CARD0).[HMOT](SSERIAL0).input-05-not
+net pendant-scale-selector-pos6 <= [HMOT](CARD0).[HMOT](SSERIAL0).input-06-not
 
 ## Motion Connections
 net jog-x-counts => axis.x.jog-counts
@@ -50,7 +53,19 @@ net jog-z-scale => axis.z.jog-scale
 net jog-z-vel-mode => axis.z.jog-vel-mode
 
 loadrt toggle names=x-select-tog,y-select-tog,z-select-tog
-addf toggle.
+addf x-select-tog servo-thread
+addf y-select-tog servo-thread
+addf z-select-tog servo-thread
+
+net pendant-x-button => x-select-tog.in
+net pendant-y-button => y-select-tog.in
+net pendant-z-button => z-select-tog.in
+
+net pendant-x-led <= x-select-tog.out
+net pendant-y-led <= y-select-tog.out
+net pendant-z-led <= z-select-tog.out
+
+
 
 ## Jog/Step logic
 
@@ -58,15 +73,25 @@ addf toggle.
 
 
 
+
+
+
+
 ## LCD
-loadrt lcd fmt_strings="LinuxCNC - Tool %2i\n%b* X Pos = %11.4f%b* Y Pos = %11.4f%b* Z Pos = %10.3f|Long Number\n%015.2f\n"
+
+#loadrt lcd fmt_strings="LinuxCNC - Tool \n X Pos = %11.4fY Pos = %11.4f Z Pos = %10.3f"
+#loadrt lcd fmt_strings="LinuxCNC - Tool %2i\n%b* X Pos = %11.4f%b* Y Pos = %11.4f%b* Z Pos = %10.3f"
+
+#loadrt lcd fmt_strings="LinuxCNC"
+loadrt lcd fmt_strings="00 00 Hello        .20 40 World        .40 14 hello        .60 54 world        ."
+
 addf lcd servo-thread -2
 
 net display-output <= lcd.00.out
 
-setp lcd.00.contrast 0.7
-#net dspx halui.axis.0.pos-commanded => lcd.00.page.01.arg.00
-#net dspy halui.axis.1.pos-commanded => lcd.00.page.01.arg.01
-#net dspz halui.axis.2.pos-commanded => lcd.00.page.01.arg.02
+setp lcd.00.contrast 1.0
+#net dspx halui.axis.x.pos-commanded => lcd.00.page.00.arg.00
+#net dspy halui.axis.y.pos-commanded => lcd.00.page.00.arg.01
+#net dspz halui.axis.z.pos-commanded => lcd.00.page.00.arg.02
 
 
