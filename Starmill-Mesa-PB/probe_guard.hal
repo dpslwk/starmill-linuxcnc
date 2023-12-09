@@ -32,6 +32,8 @@ net probe-tool-in-spindle <= comp.0.equal
 net probe-tool-in-spindle => not-probe-tool-in-spindle.in
 net probe-tool-in-spindle-not <= not-probe-tool-in-spindle.out
 
+net probe-tool-in-spindle => spindle-inhibit
+
 net motion-probing => and2.0.in0
 net probe-tool-in-spindle => and2.0.in1
 net block-probe <= and2.0.out
