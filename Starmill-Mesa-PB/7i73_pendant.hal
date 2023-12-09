@@ -82,8 +82,8 @@ net pendant.z.selected <= pendant.func.z-select-tog.out
 ### Jog/Step logic ###
 # jog-enable = (pendant.x.selected && (mode-selector.step | pendant.mode-selector.jog))
 # vel-mode = pendant.mode-selector.jog
-loadrt and2 names=pendant.func.x.and,pendant.func.y.and,pendant.func.x.and
-loadrt or2 names=pendant.func.x.or,pendant.func.y.or,pendant.func.x.or
+loadrt and2 names=pendant.func.x.and,pendant.func.y.and,pendant.func.z.and
+loadrt or2 names=pendant.func.x.or,pendant.func.y.or,pendant.func.z.or
 
 addf pendant.func.x.and servo-thread
 addf pendant.func.z.and servo-thread
@@ -102,21 +102,21 @@ net pendant.mode-selector.jog => pendant.func.z.or.in1
 net pendant.mode-selector.jog => pendant.func.y.or.in1
 
 net jog.x.mode-jog-or-step <= pendant.func.x.or.out
-net jog.x.mode-jog-or-step <= pendant.func.y.or.out
-net jog.x.mode-jog-or-step <= pendant.func.z.or.out
+net jog.y.mode-jog-or-step <= pendant.func.y.or.out
+net jog.z.mode-jog-or-step <= pendant.func.z.or.out
 
 # jog-enable <= (pendant.x.selected && mode-jog-or-step)
 net pendant.x.selected => pendant.func.x.and.in0
-net pendant.y.selected => pendant.func.z.and.in0
-net pendant.z.selected => pendant.func.y.and.in0
+net pendant.y.selected => pendant.func.y.and.in0
+net pendant.z.selected => pendant.func.z.and.in0
 
 net jog.x.mode-jog-or-step => pendant.func.x.and.in1
-net jog.x.mode-jog-or-step => pendant.func.y.and.in1
-net jog.x.mode-jog-or-step => pendant.func.z.and.in1
+net jog.y.mode-jog-or-step => pendant.func.y.and.in1
+net jog.z.mode-jog-or-step => pendant.func.z.and.in1
 
-net pendant.func.x.and.out => jog.x.enable
-net pendant.func.y.and.out => jog.y.enable
-net pendant.func.z.and.out => jog.z.enable
+net jog.x.enable <= pendant.func.x.and.out
+net jog.y.enable <= pendant.func.y.and.out
+net jog.z.enable <= pendant.func.z.and.out
 
 # vel-mode <= pendant.mode-selector.jog
 net pendant.mode-selector.jog => axis.x.jog-vel-mode
@@ -178,7 +178,7 @@ net pendant.scale-selector.selected-value => axis.z.jog-scale
 
 #addf lcd servo-thread -2
 
-#net pendant.display.output <= lcd.00.out
+#net pendant.display-output <= lcd.00.out
 
 setp lcd.00.contrast 1.0
 #net dspx halui.axis.x.pos-commanded => lcd.00.page.00.arg.00
@@ -195,7 +195,7 @@ addf lcd servo-thread
 
 #setp lcd.00.decimal-separator 44
 
-net pendant.display.output <= lcd.00.out
+net pendant.display-output <= lcd.00.out
 
 net current-tool-number => lcd.00.page.00.arg.00
 net tooloffset-z motion.tooloffset.z => lcd.00.page.00.arg.01
@@ -203,9 +203,9 @@ net x-pos lcd.00.page.00.arg.02 <= halui.axis.x.pos-relative
 net y-pos lcd.00.page.00.arg.03 <= halui.axis.y.pos-relative
 net z-pos lcd.00.page.00.arg.04 <= halui.axis.z.pos-relative
 
-net prog-line lcd.00.page.01.arg.00 <= gmoccapy.program.current-line
-net length lcd.00.page.01.arg.01 <= gmoccapy.program.length
-net progress lcd.00.page.01.arg.02 <= gmoccapy.program.progress
+#net prog-line lcd.00.page.01.arg.00 <= gmoccapy.program.current-line
+#net length lcd.00.page.01.arg.01 <= gmoccapy.program.length
+#net progress lcd.00.page.01.arg.02 <= gmoccapy.program.progress
 
 # page 0 page-manual
 # page 1 page-auto
