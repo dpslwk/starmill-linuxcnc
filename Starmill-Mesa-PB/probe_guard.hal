@@ -1,9 +1,9 @@
 # Hal to work with topcom SMART.MER/2
 
 # --- Block Probe ---
-net probe-gurad.  =>     [HMOT](CARD0).ssr.00.out-00
+net probe-guard.block-probe  =>     [HMOT](CARD0).ssr.00.out-00
 # --- Block Tool Setter ---
-net block-setter  =>     [HMOT](CARD0).ssr.00.out-01
+net probe-guard.block-setter  =>     [HMOT](CARD0).ssr.00.out-01
 
 loadrt demux personality=7
 loadrt conv_s32_u32 names=probe-guard.s32-u32
@@ -36,9 +36,9 @@ net probe-tool-in-spindle-not <= probe-guard.not-probe-tool-in-spindle.out
 
 net motion-probing => probe-guard.block-probe-and.in0
 net probe-tool-in-spindle => probe-guard.block-probe-and.in1
-net probe-gurad.block-probe <= probe-guard.block-probe-and.out
+net probe-guard.block-probe <= probe-guard.block-probe-and.out
 
 net motion-probing => probe-guard.block-setter-and.in0
 net probe-tool-in-spindle-not  => probe-guard.block-setter-and.in1
-net block-setter <= probe-guard.block-setter-and.out
+net probe-guard.block-setter <= probe-guard.block-setter-and.out
 
