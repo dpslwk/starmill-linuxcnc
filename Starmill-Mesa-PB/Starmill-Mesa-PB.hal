@@ -13,8 +13,6 @@ setp    [HMOT](CARD0).watchdog.timeout_ns 5000000
 loadrt pid names=pid.x,pid.y,pid.z,pid.s
 loadrt near
 
-loadrt not names=postgui.not-prog-running
-
 addf [HMOT](CARD0).read          servo-thread
 addf motion-command-handler   servo-thread
 addf motion-controller        servo-thread

@@ -1,15 +1,16 @@
-loadrt time
-#loadrt not names=postgui.not-prog-running
+# moved to load_for_post_gui.hal
+# loadrt time names=postgui.time-cycle
+# loadrt not names=postgui.not-prog-running
 
-addf time.0 servo-thread
+addf postgui.time-cycle servo-thread
 addf postgui.not-prog-running servo-thread
 
 net prog-running postgui.not-prog-running.in <= halui.program.is-idle
-net prog-paused halui.program.is-paused => time.0.pause
-net cycle-timer time.0.start <= postgui.not-prog-running.out
-net cycle-seconds qtpyvcp.timerseconds.in <= time.0.seconds
-net cycle-minutes qtpyvcp.timerminutes.in <= time.0.minutes
-net cycle-hours qtpyvcp.timerhours.in <= time.0.hours
+net prog-paused halui.program.is-paused => postgui.time-cycle.pause
+net cycle-timer postgui.time-cycle.start <= postgui.not-prog-running.out
+net cycle-seconds qtpyvcp.timerseconds.in <= postgui.time-cycle.seconds
+net cycle-minutes qtpyvcp.timerminutes.in <= postgui.time-cycle.minutes
+net cycle-hours qtpyvcp.timerhours.in <= postgui.time-cycle.hours
 # *** Time items required for Probe Basic to run ***
 
 # *** Probe graphic simulation trigger push probe tip ***

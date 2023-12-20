@@ -1,0 +1,3 @@
+# define any loadrt's need for POSTGUI_HALFILE here
+loadrt time names=postgui.time-cycle
+loadrt not names=postgui.not-prog-running
