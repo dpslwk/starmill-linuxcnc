@@ -152,9 +152,11 @@ net pendant.scale-selector.position-s32 => pendant.func.scale-s32-u32.in
 net pendant.scale-selector.position-u32 <= pendant.func.scale-s32-u32.out
 net pendant.scale-selector.position-u32 => mux-gen.00.sel-int
 
-# Scale amounts from ini
+# Suppress stops change, set default to smallest
 setp mux-gen.00.suppress-no-input 1
-setp mux-gen.00.in-float-00 0.005
+setp mux-gen.00.in-float-00 [PENDANT]SCALE_SELECTOR_POS0_STEP_SIZE
+
+# Scale amounts from ini
 setp mux-gen.00.in-float-01 [PENDANT]SCALE_SELECTOR_POS0_STEP_SIZE
 setp mux-gen.00.in-float-02 [PENDANT]SCALE_SELECTOR_POS1_STEP_SIZE
 setp mux-gen.00.in-float-03 [PENDANT]SCALE_SELECTOR_POS2_STEP_SIZE
